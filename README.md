@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # admin
 
 ## Project setup
@@ -25,4 +25,3 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 =======
 # adminUI
->>>>>>> 474461bc524284cf06319d961cae6a0433ab733c

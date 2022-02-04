@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+.blind {
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+@mixin line($lineCount: 1) {
+  /* 사용법 : @include line(라인수) */
+  @if ($lineCount==1) {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  } @else {
+      /* autoprefixer: off */
+      -webkit-box-orient: vertical;
+      /* autoprefixer: on */
+      display: block;
+      display: -webkit-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-all;
+      -webkit-line-clamp: $lineCount;
+  }
+}
+
+// Color
+$cobaltBlue: #205fb4;
+$lightGreen: #4fc08d;
+
+// 공통 CSS
+@import "./reset.scss";
+@import "./fonts.scss";
+@import "./common.scss";
+@import "./layout.scss";

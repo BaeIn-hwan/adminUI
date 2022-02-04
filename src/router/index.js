@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { auth } from '@/assets/js/firebase.js'
 import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
@@ -24,6 +25,17 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.path === '/login' && auth.currentUser) {
+    next('/');
+    return;
+  }
+
+  // if (to.mat)
+  console.log(to, from)
+  next();
 })
 
 export default router

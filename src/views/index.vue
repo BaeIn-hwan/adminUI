@@ -1,6 +1,6 @@
 <template>
 	<div>
-		니니
+		메인
 	</div>
 </template>
 

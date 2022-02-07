@@ -1,26 +1,22 @@
 <template>
-  <div>
-    <div id="wrapper" class="wrapper">
-      <router-view/>
-    </div>
-
+  <div id="wrapper" class="wrapper">
+    <router-view/>
     <alert-component v-if="$store.state.alert.isOpen" :alert-width="$store.state.alert.width" :alert-height="$store.state.alert.height" :alert-message="$store.state.alert.message"></alert-component>
   </div>
 </template>
 
 <script>
 import AlertComponent from '@/components/AlertComponent.vue'
-// import
 
 export default {
   name: 'LoginLayout',
   components: {
     AlertComponent,
   },
-  mounted() {
-    console.log(123)
-    this.$store.dispatch('fetchUser');
+  created() {
   },
+  methods: {
+  }
 }
 </script>
 

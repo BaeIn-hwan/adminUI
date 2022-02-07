@@ -1,3 +1,4 @@
+
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '@/router/'
@@ -52,10 +53,12 @@ export default new Vuex.Store({
     SET_COLOR_CHANGE(state, color) {
       state.pointColor = color;
     },
-    SET_USER (state, user) {
+    SET_USER(state, user) {
+      console.log(state, user)
       state.user = user;
     },
     CLEAR_USER(state) {
+      console.log(123)
       state.user = null;
     },
   },
@@ -71,13 +74,13 @@ export default new Vuex.Store({
     },
     async login({ dispatch, commit }, details) {
       const { id, pw } = details;
-
+      
       try {
         const response = await signInWithEmailAndPassword(auth, id, pw);
-        console.log(response)
+
+        console.log("login", response);
       }
       catch(err) {
-        console.log(err)
         if (err.code) {
           dispatch('alertOpen', {
             isOpen: true,
@@ -89,30 +92,32 @@ export default new Vuex.Store({
       }
 
       commit('SET_USER', auth.currentUser);
-
       window.location.href = "/";
     },
     async logout({ commit }) {
-      await signOut(auth);
+      try {
+        console.log(auth)
+        const response = await signOut(auth);
+        console.log("logout", response);
+        
+        commit('CLEAR_USER');
 
-      commit('CELAR_USER');
+        window.location.href = "/login";
+      }
+      catch(err) {
+        console.error('err', err);
+      }
     },
     fetchUser({ commit }) {
-      auth.onAuthStateChanged(async user => {
+      auth.onAuthStateChanged(user => {
         console.log("fetchUser user", user)
 
         if (user === null) {
-          commit('CELAR_USER');
+          commit('CLEAR_USER');
         } else {
           commit('SET_USER', user);
-
-          console.log("router", router)
-
-          // if ( router.currentRoute.value.path === '/login' ) {
-          //   window.location.href = "/";
-          // }
         }
-      })
+      });
     }
   },
 })

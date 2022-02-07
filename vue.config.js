@@ -16,7 +16,7 @@ module.exports = {
       title: 'Admin Page'
     },
     login: {
-      entry: 'src/login_main.js',
+      entry: 'src/login.js',
       template: 'public/login.html',
       filename: 'login.html',
       title: 'Login Page'

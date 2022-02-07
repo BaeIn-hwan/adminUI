@@ -1,7 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { auth } from '@/assets/js/firebase.js'
-import Home from '../views/Home.vue'
+import Home from '@/views/index.vue'
+// import Login from '@/views/login/'
+import TemplateList from '@/views/template/list.vue'
+import TemplateDetail from '@/views/template/detail.vue'
+import TemplateButton from '@/views/template/button.vue'
 
 Vue.use(VueRouter)
 
@@ -9,16 +13,23 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: {
+      requiresAuth: true,
+    }
+  }, {
+    path: '/template/list',
+    name: 'TemplateList',
+    component: TemplateList,
+  }, {
+    path: '/template/detail',
+    name: 'TemplateDetail',
+    component: TemplateDetail,
+  }, {
+    path: '/template/button',
+    name: 'TemplateButton',
+    component: TemplateButton,
   },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
 ]
 
 const router = new VueRouter({
@@ -28,14 +39,17 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/login' && auth.currentUser) {
-    next('/');
-    return;
-  }
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth); // page가 로그인이 필요한지 아닌지 체크
+  console.log('Check requiresAuth', requiresAuth)
 
-  // if (to.mat)
-  console.log(to, from)
-  next();
+  // 로그인 정보가 있는 경우
+  if (auth.currentUser) {
+    next();
+  }
+  // 로그인 정보가 없는 경우
+  else {
+    window.location.href = '/login'
+  }
 })
 
 export default router

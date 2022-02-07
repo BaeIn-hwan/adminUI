@@ -2,7 +2,6 @@
 .layout {
 	&-wrapper {
 		margin-top: 16px;
-		padding: 10px 15px;
 		border: 1px solid #cecece;
 		background: #fff;
 	}
@@ -12,7 +11,27 @@
 		align-items: center;
 		justify-content: space-between;
 		position: relative;
-		margin-bottom: 14px;
+		padding: 10px 15px;
+		border-bottom: 1px solid #cecece;
+		background: #ebebeb;
+
+		&__title {
+			font: {
+				size: 14px;
+				weight: 500;
+			};
+		}
+	}
+
+	&-content {
+		padding: 10px 15px;
+	}
+
+	&-filter {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 10px;
 
 		.list {
 			&-count {
@@ -34,10 +53,6 @@
 				color: #333;
 			}
 		}
-	}
-
-	&-content {
-		
 	}
 }
 
@@ -129,23 +144,37 @@
 
 // btn 공통
 .btn {
-	&-xs {
-		
-	}
-
+	display: inline-block;
+	vertical-align: middle;
+	cursor: pointer;
+	
 	&-s {
-		
+		padding: 5px 12px;
+		font-size: 12px;
 	}
 
 	&-m {
-		
+		padding: 8px 16px;
+		font-size: 14px;
 	}
 
 	&-l {
-		
+		padding: 10px 20px;
+		font-size: 16px;
 	}
 
-	&-xl {
-		
+	&:disabled {
+		opacity: .6;
+	}
+
+	&-black {
+		border: 1px solid #000 !important;
+		background-color: #fff !important;
+	}
+
+	&-white {
+		border: 1px solid #000 !important;
+		background-color: #000 !important;
+		color: #fff;
 	}
 }

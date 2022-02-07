@@ -4,16 +4,16 @@
 			<h1 class="login-header__title">Admin Login</h1>
 		</header>
 		
-		<form class="login-form" @submit.prevent="SignIn($event)">
+		<form class="login-form" @submit.prevent="signIn($event)">
 			<fieldset>
 				<legend>로그인 폼</legend>
 
 				<div class="login-form__row login-form__row--input">
-					<input ref="loginId" v-model="signIn.id" type="text" class="login-form__input login-form__input--id" placeholder="User ID">
+					<input ref="loginId" v-model="signInfo.id" type="text" class="login-form__input login-form__input--id" placeholder="User ID">
 				</div>
 
 				<div class="login-form__row login-form__row--input">
-					<input ref="loginPw" v-model="signIn.pw" :type="pwPreview.type" class="login-form__input login-form__input--pw" placeholder="User Password">
+					<input ref="loginPw" v-model="signInfo.pw" :type="pwPreview.type" class="login-form__input login-form__input--pw" placeholder="User Password">
 					<label class="login-form__label login-form__label--pw-preview">
 						<input v-model="pwPreview.flag" type="checkbox" class="blind" @change="loginPwPreview($event)">
 						<i>
@@ -24,7 +24,7 @@
 
 				<div class="login-form__row login-form__row--checkbox">
 					<label class="login-form__label login-form__label--checkbox">
-						<input v-model="signIn.saveId" type="checkbox" class="blind">
+						<input v-model="signInfo.saveId" type="checkbox" class="blind">
 						<span>Save ID</span>
 					</label>
 				</div>
@@ -42,7 +42,7 @@ export default {
 	name: 'LoginPage',
 	data() {
 		return {
-			signIn: {
+			signInfo: {
 				id: '',
 				pw: '',
 				saveId: false,
@@ -63,8 +63,8 @@ export default {
 			const saveID = window.localStorage.getItem('saveID');
 
 			if (saveID) {
-				this.signIn.id = saveID;
-				this.signIn.saveId = true;
+				this.signInfo.id = saveID;
+				this.signInfo.saveId = true;
 			}
 		},
 		loginPwPreview() {
@@ -79,8 +79,8 @@ export default {
 				this.pwPreview.flag = true;
 			}
 		},
-		SignIn() {
-			if (this.signIn.id === '') {
+		signIn() {
+			if (this.signInfo.id === '') {
 				this.$store.dispatch('alertOpen', {
 					isOpen: true,
 					message: '아이디를 입력해주세요.',
@@ -88,7 +88,7 @@ export default {
 				
 				return false;
 			}
-			else if (this.signIn.pw === '') {
+			else if (this.signInfo.pw === '') {
 				this.$store.dispatch('alertOpen', {
 					isOpen: true,
 					message: '패스워드를 입력해주세요.',
@@ -97,11 +97,14 @@ export default {
 				return false;
 			}
 
-			if (this.signIn.saveId) {
-				window.localStorage.setItem('saveID', this.signIn.id);
+			if (this.signInfo.saveId) {
+				window.localStorage.setItem('saveID', this.signInfo.id);
+			}
+			else {
+				window.localStorage.setItem('saveID', '');
 			}
 
-			this.$store.dispatch('login', this.signIn);
+			this.$store.dispatch('login', this.signInfo);
 		},
 	}
 }

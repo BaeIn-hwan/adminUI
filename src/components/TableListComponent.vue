@@ -33,43 +33,30 @@
 				<caption>템플릿 테이블</caption>
 
 				<colgroup>
-					<template v-for="(column, index) in columns">
+					<template v-for="(column, index) in gridHeader">
 						<col :key="index" :style="`width: ${column.width}`">
 					</template>
 				</colgroup>
 
 				<thead class="n-table__thead">
 					<tr class="n-table__tr">
-						<th v-for="(column, index) in columns" :key="index" class="n-table__th">
+						<th v-for="(column, index) in gridHeader" :key="index" class="n-table__th">
 							<span>{{column.label}}</span>
 						</th>
 					</tr>
 				</thead>
 
 				<tbody class="n-table__tbody">
-					<tr class="n-table__tr">
-						<td class="n-table__td">
-							<span>{{}}</span>
-						</td>
-						<!-- <td v-for="(data, index) in list" :key="" class="n-table__td" >
-							<span>{{list.title}}</span>
-						</td>
+					<tr class="n-table__tr" v-for="(rows) in gridBody" :key="rows.id">
+						<td v-for="(key, index) in tableColumns" :key="index" class="n-table__td" :class="`align-${gridHeader[index].align}`">
+							<template v-if="key !== 'controller'">
+								<span>{{rows[key]}}</span>
+							</template>
 
-						<td class="n-table__td">
-							<span>{{list.writer}}</span>
+							<template v-else>
+								<button type="button" class="btn btn-s btn-black">수정</button>
+							</template>
 						</td>
-
-						<td class="n-table__td">
-							<span>{{list.counter}}</span>
-						</td>
-
-						<td class="n-table__td">
-							<span>{{list.regdate}}</span>
-						</td>
-
-						<td class="n-table__td">
-							<span>{{}}</span>
-						</td> -->
 					</tr>
 				</tbody>
 			</table>
@@ -91,18 +78,28 @@ export default {
 			default: false,
 			require: true,
 		},
-		columns: {
+		gridHeader: {
 			type: Array,
 		},
-		body: {
+		gridBody: {
 			type: Array,
 			require: true,
 		}
 	},
 	data() {
 		return {
-			dataSet: []
+			gridSet: [],
+			sortKey: '',
 		}
+	},
+	computed: {
+		tableColumns() {
+			return this.gridHeader.map(rows => {
+				return rows.key;
+			});
+		} 
+	},
+	methods: {
 	}
 }
 </script>
@@ -156,6 +153,9 @@ export default {
 			min-height: 12px;
 			font-size: 12px;
 			color: #333;
+			line-height: 16px;
+			word-break: keep-all;
+    	word-wrap: break-word;
 		}
 	}
 }

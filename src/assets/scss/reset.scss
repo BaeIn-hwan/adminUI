@@ -48,9 +48,9 @@ table {
 input {
 	vertical-align: middle;
     
-    &::-ms-clear {
-        display: none;
-    }
+	&::-ms-clear {
+		display: none;
+	}
 }
 
 input[type="text"],
@@ -61,6 +61,7 @@ input[type="email"],
 input[type="tel"],
 input[type="number"],
 input[type="search"] {	
+	border: 1px solid #000;
 	-webkit-appearance: none;
 }
 
@@ -77,17 +78,19 @@ input[type="file"] {
 }
 
 select {
-    appearance: none;
+	appearance: none;
 }
 
 textarea {
+	border: 1px solid #000;
+	resize: none;
 	-webkit-appearance: none;
 }
 
 details {
-    summary {
-        &::-webkit-details-marker {
-            display: none;
-        }
-    }
+	summary {
+		&::-webkit-details-marker {
+			display: none;
+		}
+	}
 }

@@ -15,7 +15,9 @@
 						<div ref="setting" class="setting">
 							<div class="setting-inner">
 								<span class="setting-name">
-									<strong>OOO</strong>님
+									<template v-if="$store.state.user && $store.state.user.email">
+										<strong>{{$store.state.user.email}}</strong>님
+									</template>
 								</span>
 								
 								<ul class="setting-color">
@@ -228,8 +230,9 @@ export default {
 
 		&-name {
 			display: block;
-			color: #fff;
+			margin-bottom: 15px;
 			font-size: 14px;
+			color: #fff;
 
 			strong {
 				font-weight: 500;
@@ -240,7 +243,6 @@ export default {
 			display: flex;
 			align-items: flex-start;
 			justify-content: flex-start;
-			margin-top: 15px;
 
 			&__list {
 				margin-left: 5px;

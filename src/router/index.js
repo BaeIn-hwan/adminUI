@@ -5,6 +5,7 @@ import Home from '@/views/index.vue'
 // import Login from '@/views/login/'
 import TemplateList from '@/views/template/list.vue'
 import TemplateDetail from '@/views/template/detail.vue'
+import TemplateWrite from '@/views/template/write.vue'
 import TemplateButton from '@/views/template/button.vue'
 
 Vue.use(VueRouter)
@@ -25,6 +26,10 @@ const routes = [
     path: '/template/detail',
     name: 'TemplateDetail',
     component: TemplateDetail,
+  }, {
+    path: '/template/write',
+    name: 'TemplateWrite',
+    component: TemplateWrite,
   }, {
     path: '/template/button',
     name: 'TemplateButton',

@@ -54,31 +54,30 @@ export default new Vuex.Store({
       state.pointColor = color;
     },
     SET_USER(state, user) {
-      console.log(state, user)
       state.user = user;
     },
     CLEAR_USER(state) {
-      console.log(123)
       state.user = null;
     },
   },
   actions: {
-    alertOpen({commit}, payload) {
+    alertOpen({ commit }, payload) {
       commit('SET_ALERT_OPEN', payload);
     },
-    alertClose({commit}, payload) {
+    alertClose({ commit }, payload) {
       commit('SET_ALERT_CLOSE', payload);
     },
-    colorChange({commit}, payload) {
+    colorChange({ commit }, payload) {
       commit('SET_COLOR_CHANGE', payload)
     },
     async login({ dispatch, commit }, details) {
       const { id, pw } = details;
       
       try {
-        const response = await signInWithEmailAndPassword(auth, id, pw);
+        await signInWithEmailAndPassword(auth, id, pw);
 
-        console.log("login", response);
+        commit('SET_USER', auth.currentUser);
+        window.location.href = "/";
       }
       catch(err) {
         if (err.code) {
@@ -87,18 +86,11 @@ export default new Vuex.Store({
             message: '아이디 또는 비밀번호가 일치하지 않습니다.',
           });
         }
-
-        return;
       }
-
-      commit('SET_USER', auth.currentUser);
-      window.location.href = "/";
     },
     async logout({ commit }) {
       try {
-        console.log(auth)
-        const response = await signOut(auth);
-        console.log("logout", response);
+        await signOut(auth);
         
         commit('CLEAR_USER');
 
@@ -110,8 +102,6 @@ export default new Vuex.Store({
     },
     fetchUser({ commit }) {
       auth.onAuthStateChanged(user => {
-        console.log("fetchUser user", user)
-
         if (user === null) {
           commit('CLEAR_USER');
         } else {

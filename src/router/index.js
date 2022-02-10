@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import { auth } from 'assets/js/firebase.js'
 
 // 어드민
+import Main from 'views/Main.vue'
 import Index from 'views/index.vue'
 
 // 샘플
@@ -29,9 +30,13 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Index',
-    component: Index,
+    name: 'Main',
+    component: Main,
     children: [{
+      path: '/',
+      name: 'Index',
+      component: Index,
+    }, {
       path: 'template/list',
       name: 'TemplateList',
       component: TemplateList,

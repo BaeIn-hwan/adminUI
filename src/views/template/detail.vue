@@ -2,10 +2,10 @@
 	<div class="temp-detail">
 		<location-component :location-info="locationInfo" />
 
-		<section class="layout-wrapper">
+		<section class="layout__wrapper">
 			<h3 class="blind">템플릿 상세</h3>
 
-			<div class="layout-header">
+			<div class="layout__header">
 				<span class="list-count">
 					총 <em class="list-count__total">N</em>개
 				</span>
@@ -19,7 +19,7 @@
 				</select>
 			</div>
 
-			<div class="layout-content">
+			<div class="layout__content">
 				
 			</div>
 		</section>

@@ -1,13 +1,42 @@
-.wrapper {
+.admin {
 	// layout 공통
 	.layout {
-		&-wrapper {
+		&__row {
+			display: flex;
+			flex-wrap: wrap;
+
+			&--02 {
+				.layout__section {
+					flex: 0 0 50%;
+				}
+			}
+
+			&--03 {
+				.layout__section {
+					flex: 0 0 33.3%;
+				}
+			}
+
+			&--04 {
+				.layout__section {
+					flex: 0 0 25%;
+				}	
+			}
+		}
+
+		&__section {
+			margin-top: 16px;
+			border: 1px solid #cecece;
+			background: #fff;
+		}
+
+		&__wrapper {
 			margin-top: 16px;
 			border: 1px solid #cecece;
 			background: #fff;
 		}
 		
-		&-header {
+		&__header {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
@@ -15,73 +44,208 @@
 			padding: 10px 15px;
 			border-bottom: 1px solid #cecece;
 			background: #ebebeb;
-	
-			&__title {
-				font: {
-					size: 14px;
-					weight: 500;
-				};
-			}
-	
-			&__btn {
-				a,
-				button {
-					margin-left: 6px;
-	
-					&:first-child {
-						margin-left: 0;
-					}
-	
-					&:first-of-type {
-						margin-left: 0;
-					}
-				}
-			}
+		}
+		
+		&__title {
+			font: {
+				size: 14px;
+				weight: 500;
+			};
 		}
 	
-		&-content {
+		&__content {
 			padding: 20px 15px;
+		}
 
-			&__top {
-				display: flex;
-				align-items: flex-end;
-				justify-content: space-between;
-				margin-bottom: 10px;
+		&__box {
+			display: flex;
+			align-items: flex-end;
+			justify-content: space-between;
+			margin-bottom: 10px;
 
-				.count {
-					font-size: 13px;
-	
-					&__total {
-						font: {
-							size: 13px;
-							weight: 500;
-						};
-						color: $lightGreen;
-					}
-				}
+			.count {
+				font-size: 14px;
 
-				.sort-select {
-					min-width: 66px;
-					padding: 0 21px 0 10px;
-					height: 26px;
-					border: 1px solid #ccc;
-					background: url('~@/assets/images/common/ico_sort_select-arrow.png') no-repeat calc(100% - 5px) 50%;
-					font-size: 12px;
-					color: #333;
+				&__total {
+					font: {
+						size: 14px;
+						weight: 500;
+					};
+					color: $lightGreen;
 				}
 			}
 
-			&__btn {
-				margin-top: 20px;
+			.sort-select {
+				min-width: 66px;
+				padding: 0 21px 0 10px;
+				height: 26px;
+				border: 1px solid #ccc;
+				background: url('~@/assets/images/common/ico_sort_select-arrow.png') no-repeat calc(100% - 5px) 50%;
+				font-size: 12px;
+				color: #333;
+			}
+		}
 
-				a,
-				button {
-					margin: 0 5px;
-				}
+		&__btn {
+			margin-top: 20px;
+
+			a,
+			button {
+				margin: 0 5px;
 			}
 		}
 	}
 
+	// btn 공통
+	.btn {
+		display: inline-block;
+		vertical-align: middle;
+		cursor: pointer;
+		
+		&-s {
+			padding: 5px 12px;
+			font-size: 12px;
+		}
+	
+		&-m {
+			padding: 8px 16px;
+			font-size: 14px;
+		}
+	
+		&-l {
+			padding: 10px 20px;
+			font-size: 16px;
+		}
+	
+		&:disabled {
+			opacity: .6;
+			cursor: no-drop;
+		}
+	
+		&-black {
+			border: 1px solid #000 !important;
+			background-color: #fff !important;
+		}
+	
+		&-white {
+			border: 1px solid #000 !important;
+			background-color: #000 !important;
+			color: #fff !important;
+		}
+	}
+
+	// form 태그 공통
+	.common__form {
+		&__input {
+			width: 100%;
+			max-width: 100%;
+			height: 26px;
+			padding: 5px;
+			border: 1px solid #ccc;
+			font-size: 12px;
+			color: #333;
+			line-height: 16px;
+			vertical-align: top;
+		}
+
+		&__select {
+			width: 100%;
+			max-width: 100%;
+			height: 26px;
+			padding: 0 21px 0 10px;
+			border: 1px solid #ccc;
+			background: url('~@/assets/images/common/ico_sort_select-arrow.png') no-repeat calc(100% - 5px) 50%;
+			font-size: 12px;
+			color: #333;
+			vertical-align: top;
+		}
+
+		&__textarea {
+			width: 100%;
+			max-width: 100%;
+			padding: 5px;
+			border: 1px solid #ddd;
+			font-size: 12px;
+			color: #333;
+			line-height: 16px;
+		}
+
+		&__label {
+			display: inline-block;
+			margin-left: 8px;
+			vertical-align: top;
+			cursor: pointer;
+
+			&:first-child,
+			&:first-of-type {
+				margin-left: 0;
+			}
+		}
+
+		&__radio {
+			input {
+				& + span {
+					display: block;
+					position: relative;
+					padding-left: 28px;
+					font-size: 14px;
+					line-height: 20px;
+
+					&:before {
+						content: '';
+						display: block;
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 20px;
+						height: 20px;
+						border: 1px solid #ddd;
+						border-radius: 50%;
+						box-sizing: border-box;
+					}
+				}
+
+				&:checked + span {
+					&:before {
+						border: 5px solid $lightGreen;
+						background: #FFF;
+					}
+				}
+			}
+		}
+
+		&__checkbox {
+			input {
+				& + span {
+					display: block;
+					position: relative;
+					padding-left: 28px;
+					font-size: 14px;
+					line-height: 20px;
+
+					&:before {
+						content: '';
+						display: block;
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 20px;
+						height: 20px;
+						border: 1px solid #ddd;
+						box-sizing: border-box;
+					}
+				}
+
+				&:checked + span {
+					&:before {
+						border: 1px solid $lightGreen;
+						background: $lightGreen url('~@/assets/images/common/ico_filter_checkbox.png') no-repeat 50% 50%;
+					}
+				}
+			}
+		}
+	}
+	
 	// 필터 테이블
 	.filter {
 		&-table {
@@ -114,119 +278,14 @@
 				};
 				text-align: left;
 			}
-		
-			&__input {
-				width: 100%;
-				max-width: 100%;
-				padding: 5px;
-				border: 1px solid #ddd;
-				font-size: 12px;
-				color: #333;
-				line-height: 16px;
-			}
-
-			&__select {
-				width: 100%;
-				max-width: 100%;
-				padding: 5px;
-				border: 1px solid #ddd;
-				font-size: 12px;
-				color: #333;
-				line-height: 16px;
-			}
-
-			&__label {
-				display: inline-block;
-				margin-left: 8px;
-				vertical-align: top;
-				cursor: pointer;
-
-				&:first-child,
-				&:first-of-type {
-					margin-left: 0;
-				}
-
-				&--radio {					
-					input {
-						& + span {
-							display: block;
-							position: relative;
-							padding-left: 22px;
-							font-size: 12px;
-							line-height: 16px;
-
-							&:before {
-								content: '';
-								display: block;
-								position: absolute;
-								top: 0;
-								left: 0;
-								width: 16px;
-								height: 16px;
-								border: 1px solid #ddd;
-								border-radius: 50%;
-								box-sizing: border-box;
-							}
-						}
-
-						&:checked + span {
-							&:before {
-								border: 4px solid $lightGreen;
-								background: #FFF;
-							}
-						}
-					}
-				}
-
-				&--checkbox {
-					input {
-						& + span {
-							display: block;
-							position: relative;
-							padding-left: 22px;
-							font-size: 12px;
-							line-height: 16px;
-
-							&:before {
-								content: '';
-								display: block;
-								position: absolute;
-								top: 0;
-								left: 0;
-								width: 16px;
-								height: 16px;
-								border: 1px solid #ddd;
-								box-sizing: border-box;
-							}
-						}
-
-						&:checked + span {
-							&:before {
-								border: 1px solid $lightGreen;
-								background: $lightGreen url('~@/assets/images/common/ico_filter_checkbox.png') no-repeat 50% 50%;
-							}
-						}
-					}
-				}
-			}
-		
-			&__textarea {
-				width: 100%;
-				max-width: 100%;
-				padding: 5px;
-				border: 1px solid #ddd;
-				font-size: 12px;
-				color: #333;
-				line-height: 16px;
-			}
 		}
 
-		&-btn {
+		&__box {
 			margin-top: 15px;
-
+	
 			a,
 			button {
-				margin-left: 6px;
+				margin: 0 3px;
 			}
 		}
 	}
@@ -242,7 +301,7 @@
 			border: 1px solid #ccc;
 			font-size: 0;
 			text-align: left;
-
+	
 			span {
 				display: inline-block;
 				font: {
@@ -255,7 +314,7 @@
 			&--require {
 				position: relative;
 				padding-right: 10px;
-
+	
 				&:before {
 					content: '*';
 					position: absolute;
@@ -279,149 +338,36 @@
 			};
 			text-align: left;
 		}
-	
-		&__input {
-			width: 100%;
-			max-width: 100%;
-			padding: 5px;
-			border: 1px solid #ddd;
-			font-size: 12px;
-			color: #333;
-			line-height: 16px;
-		}
-	
-		&__textarea {
-			width: 100%;
-			max-width: 100%;
-			padding: 5px;
-			border: 1px solid #ddd;
-			font-size: 12px;
-			color: #333;
-			line-height: 16px;
-		}
 	}
 	
-	// 커스텀 테이블
-	.custom {
-		&-table {
-			display: table;
-			width: 100%;
-			table-layout: fixed;
-			border-collapse: collapse;
-			border-spacing: 0;
-	
-			&__thead {
-				display: table-header-group;
-			}
-	
-			&__tbody {
-				display: table-row-group;
-	
-				.custom-table__tr {
-					&:hover {
-						.custom-table__td {
-							background: #f2f2f2;
-							font-weight: 500;
-						}
-					}
-				}
-			}
-	
-			&__tr {
-				display: table-row;
-			}
-	
-			&__th {
-				display: table-cell;
-				padding: 12px 8px;
-				border: {
-					top: 2px solid #111;
-					right: 1px solid #ccc;
-					bottom: 1px solid #111;
-					left: 1px solid #ccc;
-				};
-				background: #eee;
-				font: {
-					size: 14px;
-					weight: 500;
-				};
-				color: #000;
-			}
-	
-			&__td {
-				display: table-cell;
-				padding: 8px;
-				border: 1px solid #ccc;
-				font-size: 12px;
-				color: #333;
-			}
-		}
-	}
-}
-
-// modal 공통
-.layer-popup {
-	position: fixed;
-	z-index: 10;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.7);
-	font-size: 0;
-	vertical-align: middle;
-	text-align: center;
-
-	&:before {
-		content: '';
-		display: inline-block;
-		width: 0;
+	// Modal 공통
+	.layer-popup {
+		position: fixed;
+		z-index: 10;
+		top: 0;
+		left: 0;
+		width: 100%;
 		height: 100%;
+		background: rgba(0, 0, 0, 0.7);
+		font-size: 0;
 		vertical-align: middle;
-	}
-
-	&__wrapper {
-		display: inline-block;
-		background: #FFF;
-		vertical-align: middle;
-		text-align: left;
-	}
-}
-
-// btn 공통
-.btn {
-	display: inline-block;
-	vertical-align: middle;
-	cursor: pointer;
+		text-align: center;
 	
-	&-s {
-		padding: 5px 12px;
-		font-size: 12px;
+		&:before {
+			content: '';
+			display: inline-block;
+			width: 0;
+			height: 100%;
+			vertical-align: middle;
+		}
+	
+		&__wrapper {
+			display: inline-block;
+			background: #FFF;
+			vertical-align: middle;
+			text-align: left;
+		}
 	}
-
-	&-m {
-		padding: 8px 16px;
-		font-size: 14px;
-	}
-
-	&-l {
-		padding: 10px 20px;
-		font-size: 16px;
-	}
-
-	&:disabled {
-		opacity: .6;
-		cursor: no-drop;
-	}
-
-	&-black {
-		border: 1px solid #000 !important;
-		background-color: #fff !important;
-	}
-
-	&-white {
-		border: 1px solid #000 !important;
-		background-color: #000 !important;
-		color: #fff !important;
-	}
+	
+	
 }

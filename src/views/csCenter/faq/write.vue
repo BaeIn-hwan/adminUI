@@ -1,11 +1,11 @@
 <template>
-	<div class="temp-write">
-		<section class="layout-wrapper">
-			<div class="layout-header">
-				<h3 class="layout-header__title">FAQ 등록</h3>
+	<div class="faq-write">
+		<section class="layout__wrapper">
+			<div class="layout__header">
+				<h3 class="layout__title">FAQ 등록</h3>
 			</div>
 
-			<div class="layout-content">
+			<div class="layout__content">
 				<form @submit.prevent="save()">
 					<fieldset>
 						<legend>FAQ 등록</legend>
@@ -24,7 +24,7 @@
 										<span class="cols-table__th--require">분류</span>
 									</th>
 									<td class="cols-table__td">
-										<select v-model="faq.category_id" class="cols-table__select">
+										<select v-model="faq.category_id" class="common__form__select common__form__select--division" @change="changeCategoryName()">
 											<option value="">선택</option>
 											<template v-for="(option, index) in filters.divSelect">
 												<option :key="index" :value="option.category_id">{{option.name}}</option>
@@ -38,7 +38,7 @@
 										<span class="cols-table__th--require">질문</span>
 									</th>
 									<td class="cols-table__td">
-										<input v-model.trim="faq.question" type="text" class="cols-table__input" maxlength="100" @input="textWrite($event, 'question')">
+										<input v-model.trim="faq.question" type="text" class="common__form__input" maxlength="100" @input="textWrite($event, 'question')">
 									</td>
 								</tr>
 
@@ -47,13 +47,13 @@
 										<span class="cols-table__th--require">답변</span>
 									</th>
 									<td class="cols-table__td">
-										<textarea v-model.trim="faq.answer" cols="30" rows="10" class="cols-table__textarea" maxlength="100" @input="textWrite($event, 'answer')"></textarea>
+										<textarea v-model.trim="faq.answer" cols="30" rows="10" class="common__form__textarea" maxlength="100" @input="textWrite($event, 'answer')"></textarea>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 
-						<div class="layout-content__btn align-center">
+						<div class="layout__content__btn align-center">
 							<button type="button" class="btn btn-m btn-black" @click="back()">취소</button>
 							<button type="submit" class="btn btn-m btn-white" :disabled="saving">저장</button>
 						</div>
@@ -143,7 +143,7 @@ export default {
 						url: `/faq`,
 						data: {
 							category_id: faq.category_id,
-							category_name: this.changeCategoryName(faq.category_id),
+							category_name: faq.category_name,
 							question: this.xssFilter(faq.question),
 							answer: this.xssFilter(faq.answer).replace(/(\n|\r\n)/g, '<br>'),
 							regdate: this.getNowDate(),
@@ -162,32 +162,36 @@ export default {
 		back() {
 			window.history.back();
 		},
-		changeCategoryName(id) {
-			let categoryName;
+		changeCategoryName() {
+			const faq = this.faq;
 
-			switch(id) {
-				case '1':
-					categoryName = '분류01';
+			switch (faq.category_id) {
+				case 1:
+					faq.category_name = '분류01';
 					break;
-				case '2':
-					categoryName = '분류02';
+				case 2:
+					faq.category_name = '분류02';
 					break;
-				case '3':
-					categoryName = '분류03';
+				case 3:
+					faq.category_name = '분류03';
 					break;
-				case '4':
-					categoryName = '분류04';
+				case 4:
+					faq.category_name = '분류04';
 					break;
 			}
-
-			console.log('categoryName', categoryName)
-
-			return categoryName;
 		}
 	}
 }
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+.faq-write {
+	.common__form {
+		&__select {
+			&--division {
+				width: 160px;
+			}
+		}
+	}
+}
 </style>

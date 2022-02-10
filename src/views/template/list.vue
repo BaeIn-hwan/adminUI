@@ -2,12 +2,12 @@
 	<div class="temp-list">
 		<location-component :location-info="locationInfo" />
 
-		<section class="layout-wrapper">
-			<div class="layout-header">
-				<h3 class="layout-header__title">필터</h3>
+		<section class="layout__wrapper">
+			<div class="layout__header">
+				<h3 class="layout__title">필터</h3>
 			</div>
 
-			<div class="layout-content">
+			<div class="layout__content">
 				<table class="filter-table">
 					<caption>필터</caption>
 
@@ -24,13 +24,13 @@
 								<span>Input 타입</span>
 							</th>
 							<td class="filter-table__td">
-								<input type="text" class="filter-table__input">
+								<input type="text" class="common__form__input">
 							</td>
 							<th class="filter-table__th">
 								<span>Select 타입</span>
 							</th>
 							<td class="filter-table__td">
-								<select class="filter-table__select">
+								<select class="common__form__select">
 									<option value="">분류</option>
 									<option value="">옵션01</option>
 									<option value="">옵션02</option>
@@ -44,12 +44,12 @@
 								<span>Radio 타입</span>
 							</th>
 							<td class="filter-table__td">
-								<label class="filter-table__label filter-table__label--radio">
+								<label class="common__form__label common__form__radio">
 									<input type="radio" class="blind" name="tempRadio">
 									<span>선택01</span>
 								</label>
 
-								<label class="filter-table__label filter-table__label--radio">
+								<label class="common__form__label common__form__radio">
 									<input type="radio" class="blind" name="tempRadio">
 									<span>선택02</span>
 								</label>
@@ -58,12 +58,12 @@
 								<span>Checkbox 타입</span>
 							</th>
 							<td class="filter-table__td">
-								<label class="filter-table__label filter-table__label--checkbox">
+								<label class="common__form__label common__form__checkbox">
 									<input type="checkbox" class="blind" name="tempCheckbox">
 									<span>선택01</span>
 								</label>
 
-								<label class="filter-table__label filter-table__label--checkbox">
+								<label class="common__form__label common__form__checkbox">
 									<input type="checkbox" class="blind" name="tempCheckbox">
 									<span>선택02</span>
 								</label>
@@ -79,16 +79,16 @@
 			</div>
 		</section>
 
-		<section class="layout-wrapper">
-			<div class="layout-header">
-				<h3 class="layout-header__title">템플릿 리스트</h3>
-				<div class="layout-header__btn">
+		<section class="layout__wrapper">
+			<div class="layout__header">
+				<h3 class="layout__title">템플릿 리스트</h3>
+				<div class="layout__header__btn">
 					<router-link to="/template/write" class="btn btn-s btn-white">등록</router-link>
 				</div>
 			</div>
 
-			<div class="layout-content">
-				<div class="layout-content__top">
+			<div class="layout__content">
+				<div class="layout__content__top">
 					<span class="count">
 						총 <em class="count__total">{{grid.body.length}}</em>개
 					</span>

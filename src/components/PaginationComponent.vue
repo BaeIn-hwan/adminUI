@@ -69,11 +69,11 @@ export default {
       type: Object,
       default: () => {
         return {
-          id: null,
-          current: 1,
-          rowCount: 5,
-          listLength: 20,
-          total: 0,
+          id: null,        // 페이지 컴포넌트 ID
+          current: 1,      // 현재 페이지 번호
+          rowCount: 5,     // 
+          listLength: 20,  // 리스트 갯수
+          total: 1,        // 리스트 전체 갯수
         }
       },
       required: true

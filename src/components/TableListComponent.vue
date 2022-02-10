@@ -132,10 +132,6 @@ export default {
 		}
 	}
 
-	&__tr {
-		
-	}
-
 	&__th {
 		padding: 12px 8px;
 		border: {
@@ -172,9 +168,9 @@ export default {
 		}
 
 		&--none {
-			padding: 8px;
+			padding: 15px 0;
 			border: 1px solid #ccc;
-			font-size: 12px;
+			font-size: 14px;
 
 			&:hover {
 				background: inherit;

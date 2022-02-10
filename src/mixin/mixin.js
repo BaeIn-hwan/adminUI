@@ -7,6 +7,17 @@ const mixin = {
 		}
 	},
 	methods: {
+		parserParameter(obj) {
+			let params = '';
+
+			for (let [key, value] of Object.entries(obj)) {
+				params += `${key}=${value}&`
+			}
+
+			console.log(params)
+
+			return params;
+		},
 		getNowDate() {
 			const now = new Date();
 			const nowYear = now.getFullYear();
@@ -22,5 +33,6 @@ const mixin = {
 			return xss.filterXSS(text, { stripIgnoreTag : true })
 		}
 	}
-}
+};
+
 export default mixin;

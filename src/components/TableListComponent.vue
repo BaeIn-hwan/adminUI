@@ -33,32 +33,42 @@
 				<caption>템플릿 테이블</caption>
 
 				<colgroup>
-					<template v-for="(column, index) in gridHeader">
+					<template v-for="(column, index) in grid.header">
 						<col :key="index" :style="`width: ${column.width}`">
 					</template>
 				</colgroup>
 
 				<thead class="n-table__thead">
 					<tr class="n-table__tr">
-						<th v-for="(column, index) in gridHeader" :key="index" class="n-table__th">
+						<th v-for="(column, index) in grid.header" :key="index" class="n-table__th">
 							<span>{{column.label}}</span>
 						</th>
 					</tr>
 				</thead>
 
-				<tbody class="n-table__tbody">
-					<tr class="n-table__tr" v-for="(rows) in gridBody" :key="rows.id">
-						<td v-for="(key, index) in tableColumns" :key="index" class="n-table__td" :class="`align-${gridHeader[index].align}`">
-							<template v-if="key !== 'controller'">
-								<span>{{rows[key]}}</span>
-							</template>
+				<template v-if="grid.body && grid.body.length">
+					<tbody class="n-table__tbody">
+						<tr class="n-table__tr" v-for="(rows) in grid.body" :key="rows.id">
+							<td v-for="(key, index) in tableColumns" :key="index" class="n-table__td" :class="`align-${grid.header[index].align}`">
+								<template v-if="key !== 'controller'">
+									<span>{{rows[key]}}</span>
+								</template>
 
-							<template v-else>
-								<button type="button" class="btn btn-s btn-black">수정</button>
-							</template>
-						</td>
-					</tr>
-				</tbody>
+								<template v-else>
+									<button type="button" class="btn btn-s btn-black">수정</button>
+								</template>
+							</td>
+						</tr>
+					</tbody>
+				</template>
+
+				<template v-else>
+					<tbody class="n-table__tbody">
+						<tr class="n-table__tr">
+							<td class="n-table__td--none align-center" :colspan="grid.header.length">리스트가 없습니다.</td>
+						</tr>
+					</tbody>
+				</template>
 			</table>
 		</template>
 
@@ -78,13 +88,16 @@ export default {
 			default: false,
 			require: true,
 		},
-		gridHeader: {
-			type: Array,
-		},
-		gridBody: {
-			type: Array,
+		grid: {
+			type: Object,
 			require: true,
-		}
+			default: () => {
+				return {
+					header: [],
+					body: [],
+				}
+			},
+		},
 	},
 	data() {
 		return {
@@ -94,7 +107,7 @@ export default {
 	},
 	computed: {
 		tableColumns() {
-			return this.gridHeader.map(rows => {
+			return this.grid.header.map(rows => {
 				return rows.key;
 			});
 		} 
@@ -152,10 +165,20 @@ export default {
 			display: block;
 			min-height: 12px;
 			font-size: 12px;
-			color: #333;
-			line-height: 16px;
-			word-break: keep-all;
-    	word-wrap: break-word;
+      color: #333;
+      line-height: 16px;
+      word-break: keep-all;
+      word-wrap: break-word;
+		}
+
+		&--none {
+			padding: 8px;
+			border: 1px solid #ccc;
+			font-size: 12px;
+
+			&:hover {
+				background: inherit;
+			}
 		}
 	}
 }

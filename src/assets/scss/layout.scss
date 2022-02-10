@@ -40,7 +40,7 @@
 		}
 	
 		&-content {
-			padding: 10px 15px;
+			padding: 20px 15px;
 
 			&__top {
 				display: flex;
@@ -60,7 +60,7 @@
 					}
 				}
 
-				&__select {
+				.sort-select {
 					min-width: 66px;
 					padding: 0 21px 0 10px;
 					height: 26px;
@@ -70,9 +70,19 @@
 					color: #333;
 				}
 			}
+
+			&__btn {
+				margin-top: 20px;
+
+				a,
+				button {
+					margin: 0 5px;
+				}
+			}
 		}
 	}
 
+	// 필터 테이블
 	.filter {
 		&-table {
 			max-width: 100%;
@@ -113,6 +123,91 @@
 				font-size: 12px;
 				color: #333;
 				line-height: 16px;
+			}
+
+			&__select {
+				width: 100%;
+				max-width: 100%;
+				padding: 5px;
+				border: 1px solid #ddd;
+				font-size: 12px;
+				color: #333;
+				line-height: 16px;
+			}
+
+			&__label {
+				display: inline-block;
+				margin-left: 8px;
+				vertical-align: top;
+				cursor: pointer;
+
+				&:first-child,
+				&:first-of-type {
+					margin-left: 0;
+				}
+
+				&--radio {					
+					input {
+						& + span {
+							display: block;
+							position: relative;
+							padding-left: 22px;
+							font-size: 12px;
+							line-height: 16px;
+
+							&:before {
+								content: '';
+								display: block;
+								position: absolute;
+								top: 0;
+								left: 0;
+								width: 16px;
+								height: 16px;
+								border: 1px solid #ddd;
+								border-radius: 50%;
+								box-sizing: border-box;
+							}
+						}
+
+						&:checked + span {
+							&:before {
+								border: 4px solid $lightGreen;
+								background: #FFF;
+							}
+						}
+					}
+				}
+
+				&--checkbox {
+					input {
+						& + span {
+							display: block;
+							position: relative;
+							padding-left: 22px;
+							font-size: 12px;
+							line-height: 16px;
+
+							&:before {
+								content: '';
+								display: block;
+								position: absolute;
+								top: 0;
+								left: 0;
+								width: 16px;
+								height: 16px;
+								border: 1px solid #ddd;
+								box-sizing: border-box;
+							}
+						}
+
+						&:checked + span {
+							&:before {
+								border: 1px solid $lightGreen;
+								background: $lightGreen url('~@/assets/images/common/ico_filter_checkbox.png') no-repeat 50% 50%;
+							}
+						}
+					}
+				}
 			}
 		
 			&__textarea {
@@ -262,71 +357,71 @@
 			}
 		}
 	}
-	
-	// modal 공통
-	.layer-popup {
-		position: fixed;
-		z-index: 10;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background: rgba(0, 0, 0, 0.7);
-		font-size: 0;
-		vertical-align: middle;
-		text-align: center;
-	
-		&:before {
-			content: '';
-			display: inline-block;
-			width: 0;
-			height: 100%;
-			vertical-align: middle;
-		}
-	
-		&__wrapper {
-			display: inline-block;
-			background: #FFF;
-			vertical-align: middle;
-			text-align: left;
-		}
-	}
-	
-	// btn 공통
-	.btn {
+}
+
+// modal 공통
+.layer-popup {
+	position: fixed;
+	z-index: 10;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.7);
+	font-size: 0;
+	vertical-align: middle;
+	text-align: center;
+
+	&:before {
+		content: '';
 		display: inline-block;
+		width: 0;
+		height: 100%;
 		vertical-align: middle;
-		cursor: pointer;
-		
-		&-s {
-			padding: 5px 12px;
-			font-size: 12px;
-		}
+	}
+
+	&__wrapper {
+		display: inline-block;
+		background: #FFF;
+		vertical-align: middle;
+		text-align: left;
+	}
+}
+
+// btn 공통
+.btn {
+	display: inline-block;
+	vertical-align: middle;
+	cursor: pointer;
 	
-		&-m {
-			padding: 8px 16px;
-			font-size: 14px;
-		}
-	
-		&-l {
-			padding: 10px 20px;
-			font-size: 16px;
-		}
-	
-		&:disabled {
-			opacity: .6;
-			cursor: no-drop;
-		}
-	
-		&-black {
-			border: 1px solid #000 !important;
-			background-color: #fff !important;
-		}
-	
-		&-white {
-			border: 1px solid #000 !important;
-			background-color: #000 !important;
-			color: #fff !important;
-		}
+	&-s {
+		padding: 5px 12px;
+		font-size: 12px;
+	}
+
+	&-m {
+		padding: 8px 16px;
+		font-size: 14px;
+	}
+
+	&-l {
+		padding: 10px 20px;
+		font-size: 16px;
+	}
+
+	&:disabled {
+		opacity: .6;
+		cursor: no-drop;
+	}
+
+	&-black {
+		border: 1px solid #000 !important;
+		background-color: #fff !important;
+	}
+
+	&-white {
+		border: 1px solid #000 !important;
+		background-color: #000 !important;
+		color: #fff !important;
 	}
 }

@@ -1,0 +1,35 @@
+{
+  "notice": [],
+  "faq": [
+    {
+      "category_id": 1,
+      "category_name": "",
+      "question": "냐냐",
+      "answer": "냐냐<br><br>XSS 테스트<br><br>alert('test')",
+      "regdate": "",
+      "id": 1
+    },
+    {
+      "category_id": 1,
+      "category_name": "",
+      "question": "질문 테스트",
+      "answer": "저장 테스트중입니다.<br><br>ㅁㄴㅇ",
+      "regdate": "",
+      "id": 2
+    },
+    {
+      "category_id": 1,
+      "question": "다시 테스트",
+      "answer": "alert()",
+      "regdate": "2022.2.10 15:41:42",
+      "id": 3
+    },
+    {
+      "category_id": 2,
+      "question": "qqqq",
+      "answer": "qqqqaaaa<br>aasdasd<br>",
+      "regdate": "2022.2.10 15:47:39",
+      "id": 4
+    }
+  ]
+}

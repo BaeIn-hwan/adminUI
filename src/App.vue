@@ -1,35 +1,27 @@
-b<template>
-  <div id="wrapper" class="wrapper">
-    <header-component />
-     <main class="container">
-      <router-view/>
-    </main>
-    <footer-component />
-
+<template>
+  <div>
+    <router-view class="wrapper" />
+    
     <alert-component v-if="$store.state.alert.isOpen" :alert-width="$store.state.alert.width" :alert-height="$store.state.alert.height" :alert-message="$store.state.alert.message"></alert-component>
   </div>
 </template>
 
 <script>
-import HeaderComponent from '@/views/include/HeaderComponent.vue'
-import FooterComponent from '@/views/include/FooterComponent.vue'
-import AlertComponent from '@/components/AlertComponent.vue'
+import AlertComponent from 'components/AlertComponent.vue'
 
 export default {
   components: {
-    HeaderComponent,
-    FooterComponent,
     AlertComponent
   },
-  created() {
-    this.$store.dispatch('fetchUser');
-  }
 }
 </script>
 
+<style>
+  
+</style>
+
 <style lang="scss">
-.container {
-  background: #f2f2f2;
-  padding: 12px;
+* {
+
 }
 </style>

@@ -1,39 +1,44 @@
 <template>
-	<div class="login">
-		<header class="login-header">
-			<h1 class="login-header__title">Admin Login</h1>
-		</header>
-		
-		<form class="login-form" @submit.prevent="signIn($event)">
-			<fieldset>
-				<legend>로그인 폼</legend>
+	<div>
+		<div class="login">
+			<header class="login-header">
+				<h1 class="login-header__title">Admin Login</h1>
+			</header>
+			
+			<form class="login-form" @submit.prevent="signIn($event)">
+				<fieldset>
+					<legend>로그인 폼</legend>
 
-				<div class="login-form__row login-form__row--input">
-					<input ref="loginId" v-model="signInfo.id" type="text" class="login-form__input login-form__input--id" placeholder="User ID">
-				</div>
+					<div class="login-form__row login-form__row--input">
+						<input ref="loginId" v-model="signInfo.id" type="text" class="login-form__input login-form__input--id" placeholder="User ID">
+					</div>
 
-				<div class="login-form__row login-form__row--input">
-					<input ref="loginPw" v-model="signInfo.pw" :type="pwPreview.type" class="login-form__input login-form__input--pw" placeholder="User Password">
-					<label class="login-form__label login-form__label--pw-preview">
-						<input v-model="pwPreview.flag" type="checkbox" class="blind" @change="loginPwPreview($event)">
-						<i>
-							<span class="blind">비밀번호 표시 On/Off</span>
-						</i>
-					</label>
-				</div>
+					<div class="login-form__row login-form__row--input">
+						<input ref="loginPw" v-model="signInfo.pw" :type="pwPreview.type" class="login-form__input login-form__input--pw" placeholder="User Password">
+						<label class="login-form__label login-form__label--pw-preview">
+							<input v-model="pwPreview.flag" type="checkbox" class="blind" @change="loginPwPreview($event)">
+							<i>
+								<span class="blind">비밀번호 표시 On/Off</span>
+							</i>
+						</label>
+					</div>
 
-				<div class="login-form__row login-form__row--checkbox">
-					<label class="login-form__label login-form__label--checkbox">
-						<input v-model="signInfo.saveId" type="checkbox" class="blind">
-						<span>Save ID</span>
-					</label>
-				</div>
+					<div class="login-form__row login-form__row--checkbox">
+						<label class="login-form__label login-form__label--checkbox">
+							<input v-model="signInfo.saveId" type="checkbox" class="blind">
+							<span>Save ID</span>
+						</label>
+					</div>
 
-				<div class="login-form__row login-form__row--button">
-					<button type="submit" class="login-form__button login-form__button--submit">Sign In</button>
-				</div>
-			</fieldset>
-		</form>
+					<div class="login-form__row login-form__row--button">
+						<button type="submit" class="login-form__button login-form__button--submit">Sign In</button>
+					</div>
+				</fieldset>
+			</form>
+
+			<button type="button" @click="logout()">로그아웃</button>
+			<button type="button" @click="test()">인증 테스트</button>
+		</div>
 	</div>
 </template>
 
@@ -106,11 +111,30 @@ export default {
 
 			this.$store.dispatch('login', this.signInfo);
 		},
+		logout() {
+			this.$store.dispatch('logout');
+			this.$store.dispatch('fetchUser');
+		},
+		test() {
+			this.$store.dispatch('fetchUser');
+		}
 	}
 }
 </script>
 
 <style lang="scss" scoped>
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #666;
+}
+
 .login {
 	width: 450px;
 	padding: 50px 60px;

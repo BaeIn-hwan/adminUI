@@ -3,8 +3,8 @@
 		<div class="layer-popup__wrapper alert-layer__wrapper" :style="`width: ${$store.state.alert.width == 0 ? '' : $store.state.alert.width +'px'}; height: ${$store.state.alert.height == 0 ? '' : $store.state.alert.height +'px'};`">
 			<p class="alert-layer__content">{{$store.state.alert.message}}</p>
 
-			<div class="alert-layer__btn">
-				<button ref="alertClose" type="button" class="btn" @click="alertClose()">확인</button>
+			<div class="alert-layer__btn align-center">
+				<button ref="alertClose" type="button" class="btn btn-m btn-white" @click="alertClose()" v-focus>확인</button>
 			</div>
 		</div>
 	</div>
@@ -45,16 +45,12 @@ export default {
 		display: flex;
 		justify-content: center;
 		align-content: center;
-		margin-bottom: 20px;
+		margin-bottom: 25px;
 		font-size: 14px;
 		line-height: 18px;
 		text-align: center;
 		word-break: break-all;
 		word-wrap: break-word;
-	}
-
-	&__btn {
-		text-align: center;
 	}
 }
 </style>

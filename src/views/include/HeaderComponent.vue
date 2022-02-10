@@ -55,20 +55,18 @@
 			<h2 class="blind">GNB</h2>
 			
 			<ul class="gnb-box gnb-depth01__box">
-				<li class="gnb-box__list gnb-depth01__list" @mouseleave="menuClose()">
-					<a href="#" class="gnb-depth01__title" @click.prevent @mouseenter="menuOpen(0)">메뉴01</a>
+				<li v-for="(depth1, depth1Index) in gnb" :key="depth1Index" class="gnb-box__list gnb-depth01__list" @mouseleave="menuClose()">
+					<a href="#" class="gnb-depth01__title" @click.prevent @mouseenter="menuOpen(depth1Index)">{{depth1.title}}</a>
 
-					<ul v-if="menuId == 0" class="gnb-depth02__box">
-						<li class="gnb-depth02__list">
-							<span class="gnb-depth02__title" :style="`background: ${pointColor}`">서브뎁스 타이틀</span>
+					<ul v-if="menuId === depth1Index" class="gnb-sub__box">
+						<li class="gnb-sub__list">
+							<template v-if="depth1.subTitle && depth1.subTitle !== ''">
+								<span class="gnb-sub__title" :style="`background: ${pointColor}`">서브뎁스 타이틀</span>
+							</template>
 
-							<ul class="gnb-depth03__box">
-								<li class="gnb-depth03__list">
-									<router-link class="gnb-depth03__title" to="/">메뉴0101</router-link>
-								</li>
-
-								<li class="gnb-depth03__list">
-									<router-link class="gnb-depth03__title" to="/">메뉴0101</router-link>
+							<ul class="gnb-depth02__box">
+								<li v-for="(depth2, depth2Index) in depth1.depth02" :key="depth2Index" class="gnb-depth02__list">
+									<router-link class="gnb-depth02__title" :to="depth2.url">{{depth2.title}}</router-link>
 								</li>
 							</ul>
 						</li>
@@ -78,21 +76,17 @@
 				<li class="gnb-box__list gnb-depth01__list" @mouseleave="menuClose()">
 					<a href="#" class="gnb-depth01__title" @click.prevent @mouseenter="menuOpen(1)">Layouts</a>
 
-					<ul v-if="menuId == 1" class="gnb-depth02__box">
-						<li class="gnb-depth02__list">
-							<span class="gnb-depth02__title" :style="`background: ${pointColor}`">템플릿 가이드</span>
+					<ul v-if="menuId == 1" class="gnb-sub__box">
+						<li class="gnb-sub__list">
+							<span class="gnb-sub__title" :style="`background: ${pointColor}`">템플릿 가이드</span>
 
-							<ul class="gnb-depth03__box">
-								<li class="gnb-depth03__list">
-									<router-link class="gnb-depth03__title" to="/template/list">리스트 페이지</router-link>
+							<ul class="gnb-depth02__box">
+								<li class="gnb-depth02__list">
+									<router-link class="gnb-depth02__title" to="/template/list">리스트 페이지</router-link>
 								</li>
 
-								<li class="gnb-depth03__list">
-									<router-link class="gnb-depth03__title" to="/template/detail">상세 페이지</router-link>
-								</li>
-
-								<li class="gnb-depth03__list">
-									<router-link class="gnb-depth03__title" to="/template/button">버튼 가이드</router-link>
+								<li class="gnb-depth02__list">
+									<router-link class="gnb-depth02__title" to="/template/detail">상세 페이지</router-link>
 								</li>
 							</ul>
 						</li>
@@ -108,7 +102,16 @@ export default {
 	name: 'HeaderCompoennt',
 	data() {
 		return {
-			gnb: [],
+			gnb: [{
+				title: '고객센터',
+				depth02: [{
+					title: '공지사항',
+					url: '/notice/list'
+				}, {
+					title: 'FAQ',
+					url: '/faq/list'
+				}]
+			}],
 			menuId: null,
 			pointColor: this.$store.state.pointColor,
 		}
@@ -296,6 +299,28 @@ export default {
 			justify-content: flex-start;
 		}
 
+		&-sub {
+			&__box {
+				position: absolute;
+				top: 50px;
+				left: 0;
+				border: 1px solid #aaa;
+				background: #FFF;
+				min-width: 150px;
+			}
+
+			&__title {
+				display: block;
+				padding: 12px 10px;
+				font: {
+					size: 14px;
+					weight: 500;
+				};
+				color: #FFF;
+				line-height: 20px;
+			}
+		}
+
 		&-depth {
 			&01 {
 				&__list {
@@ -316,28 +341,6 @@ export default {
 			}
 
 			&02 {
-				&__box {
-					position: absolute;
-					top: 50px;
-					left: 0;
-					border: 1px solid #aaa;
-					background: #FFF;
-					min-width: 150px;
-				}
-
-				&__title {
-					display: block;
-					padding: 12px 10px;
-					font: {
-						size: 14px;
-						weight: 500;
-					};
-					color: #FFF;
-					line-height: 20px;
-				}
-			}
-
-			&03 {
 				&__box {
 					padding: 15px 10px;
 				}

@@ -1,12 +1,12 @@
-
 import Vue from 'vue'
 import Vuex from 'vuex'
-import router from '@/router/'
-import { auth } from '@/assets/js/firebase.js'
+import { auth } from 'assets/js/firebase.js'
 import {
   signInWithEmailAndPassword,
   signOut
 } from 'firebase/auth'
+import router from '@/router'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -42,6 +42,7 @@ export default new Vuex.Store({
       colorCode: '#613dc9'
     }],
     user: null,
+    baseUrl: process.env.NODE_ENV === 'development' ? '//localhost:3001' : process.env.BASE_URL
   },
   mutations: {
     SET_ALERT_OPEN(state, alertData) {
@@ -61,15 +62,46 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    // api
+    async requestMethods({state}, payload) {
+      const {header, method, url, data} = payload;
+
+      try {
+        const requestParams = {
+          method: method,
+          header: header ? header : {},
+          url: `${state.baseUrl}${url}`,
+          data: data ? data : null
+        };
+  
+        const response = await axios(requestParams);
+        
+        if (response && response.status && (response.status == 200 || response.status == 201)) {
+          return response;
+        }
+        else {
+          throw ({message: response.status_message});
+        }
+      }
+      catch(err) {
+        console.error('request errorr', err);
+      }
+    },
+
+    // alert
     alertOpen({ commit }, payload) {
       commit('SET_ALERT_OPEN', payload);
     },
     alertClose({ commit }, payload) {
       commit('SET_ALERT_CLOSE', payload);
     },
+
+    // color Change
     colorChange({ commit }, payload) {
       commit('SET_COLOR_CHANGE', payload)
     },
+
+    // login 처리
     async login({ dispatch, commit }, details) {
       const { id, pw } = details;
       
@@ -77,7 +109,7 @@ export default new Vuex.Store({
         await signInWithEmailAndPassword(auth, id, pw);
 
         commit('SET_USER', auth.currentUser);
-        window.location.href = "/";
+        router.push('/');
       }
       catch(err) {
         if (err.code) {
@@ -94,13 +126,15 @@ export default new Vuex.Store({
         
         commit('CLEAR_USER');
 
-        window.location.href = "/login";
+        router.push('/login');
       }
       catch(err) {
         console.error('err', err);
       }
     },
     fetchUser({ commit }) {
+      console.log('auth', auth)
+      console.log('auth.currentUser', auth.currentUser)
       auth.onAuthStateChanged(user => {
         if (user === null) {
           commit('CLEAR_USER');

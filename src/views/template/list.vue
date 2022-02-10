@@ -21,23 +21,59 @@
 					<tbody class="filter-table__tbody">
 						<tr class="filter-table__tr">
 							<th class="filter-table__th">
-								<span>필터</span>
+								<span>Input 타입</span>
 							</th>
 							<td class="filter-table__td">
 								<input type="text" class="filter-table__input">
 							</td>
 							<th class="filter-table__th">
-								<span>필터</span>
+								<span>Select 타입</span>
 							</th>
 							<td class="filter-table__td">
-								<input type="text" class="filter-table__input">
+								<select class="filter-table__select">
+									<option value="">분류</option>
+									<option value="">옵션01</option>
+									<option value="">옵션02</option>
+									<option value="">옵션03</option>
+								</select>
+							</td>
+						</tr>
+
+						<tr class="filter-table__tr">
+							<th class="filter-table__th">
+								<span>Radio 타입</span>
+							</th>
+							<td class="filter-table__td">
+								<label class="filter-table__label filter-table__label--radio">
+									<input type="radio" class="blind" name="tempRadio">
+									<span>선택01</span>
+								</label>
+
+								<label class="filter-table__label filter-table__label--radio">
+									<input type="radio" class="blind" name="tempRadio">
+									<span>선택02</span>
+								</label>
+							</td>
+							<th class="filter-table__th">
+								<span>Checkbox 타입</span>
+							</th>
+							<td class="filter-table__td">
+								<label class="filter-table__label filter-table__label--checkbox">
+									<input type="checkbox" class="blind" name="tempCheckbox">
+									<span>선택01</span>
+								</label>
+
+								<label class="filter-table__label filter-table__label--checkbox">
+									<input type="checkbox" class="blind" name="tempCheckbox">
+									<span>선택02</span>
+								</label>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 
 				<div class="filter-btn align-center">
-					<button type="button" class="btn btn-m btn-white">적용</button>
+					<button type="button" class="btn btn-m btn-white">검색</button>
 					<button type="button" class="btn btn-m btn-black">취소</button>
 				</div>
 			</div>
@@ -52,12 +88,12 @@
 			</div>
 
 			<div class="layout-content">
-				<div class="layout-content__sort">
-					<span class="layout-sort__count">
-						총 <em class="layout-sort__count--total">{{grid.body.length}}</em>개
+				<div class="layout-content__top">
+					<span class="count">
+						총 <em class="count__total">{{grid.body.length}}</em>개
 					</span>
 
-					<select class="layout-sort__select">
+					<select class="sort-select">
 						<option value="">20</option>
 						<option value="">40</option>
 						<option value="">60</option>
@@ -66,7 +102,9 @@
 					</select>
 				</div>
 
-				<table-listComponent :loading="loading.sampleList" :grid-header="grid.header" :grid-body="grid.body" />
+				<table-list-component :loading="loading.sampleList" :grid="grid" />
+
+				<pagination-component :pagination="paginations" :loading="loading.paginationLoading" v-if="grid.body && grid.body.length" ref="pagination" @move-page="pagingEvent($event);" />
 			</div>
 		</section>
 	</div>
@@ -89,6 +127,7 @@ export default {
 			},
 			loading: {
 				sampleList: false,
+				mediaListLoading: false,
 			},
 			grid: {
 				header: [{
@@ -118,7 +157,14 @@ export default {
 					align: 'center',
 				}],
 				body: [],
-			}
+			},
+			paginations: {
+				id: "itemList",
+				current: 1,
+				rowCount: 10,
+				listLength: 10,
+				total: 201,
+			},
 		}
 	},
 	created() {
@@ -165,7 +211,12 @@ export default {
 
 			this.grid.body = response;
 			this.loading.sampleList = true;
-		}
+		},
+		pagingEvent(payload) {
+			const {id, pageNumber} = payload;
+			
+			this.paginations.current = pageNumber;
+		}	
 	}
 }
 </script>

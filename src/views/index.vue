@@ -1,15 +1,28 @@
 <template>
-	<div>
-		메인
-	</div>
+	<div id="wrapper">
+    <header-component />
+     <main class="container">
+      <router-view/>
+    </main>
+    <footer-component />     
+  </div>
 </template>
 
 <script>
-export default {
+import HeaderComponent from 'views/include/HeaderComponent.vue'
+import FooterComponent from 'views/include/FooterComponent.vue'
 
+export default {
+	components: {
+    HeaderComponent,
+    FooterComponent,
+  },
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.container {
+  background: #f2f2f2;
+  padding: 12px;
+}
 </style>

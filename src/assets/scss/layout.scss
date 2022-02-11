@@ -5,6 +5,10 @@
 			display: flex;
 			flex-wrap: wrap;
 
+			.layout__section {
+				flex: 0 0 100%;
+			}
+
 			&--02 {
 				.layout__section {
 					flex: 0 0 50%;
@@ -86,7 +90,7 @@
 			}
 		}
 
-		&__btn {
+		&__controller {
 			margin-top: 20px;
 
 			a,

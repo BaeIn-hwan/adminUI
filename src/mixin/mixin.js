@@ -7,16 +7,19 @@ const mixin = {
 		}
 	},
 	methods: {
+		/**
+		 * @params Object : Request From 데이터 or QueryString
+		 */
 		parserParameter(obj) {
 			let params = '';
 
 			for (let [key, value] of Object.entries(obj)) {
-				params += `${key}=${value}&`
+				if (value) {
+					params += `${key}=${value}&`
+				}
 			}
 
-			console.log(params)
-
-			return params;
+			return params.replace(/&$/, '');
 		},
 		getNowDate() {
 			const now = new Date();
@@ -29,6 +32,11 @@ const mixin = {
 
 			return `${nowYear}.${nowMonth}.${nowDate} ${nowHour}:${nowMinute}:${nowSecond}`;
 		},
+
+		getQueryString() {
+			return new URLSearchParams(window.location.search);
+		},
+
 		xssFilter(text) {
 			return xss.filterXSS(text, { stripIgnoreTag : true })
 		}

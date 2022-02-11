@@ -53,7 +53,7 @@
 							</tbody>
 						</table>
 
-						<div class="layout__content__btn align-center">
+						<div class="layout__controller align-center">
 							<button type="button" class="btn btn-m btn-black" @click="back()">취소</button>
 							<button type="submit" class="btn btn-m btn-white" :disabled="saving">저장</button>
 						</div>
@@ -94,10 +94,39 @@ export default {
 					name: '분류04'
 				}]
 			},
+			requests: {
+				faq: {
+					id: null,
+				}
+			},
 			saving: false,
 		}
 	},
+	created() {
+		const _id = this.getQueryString().get('id');
+
+		if (_id) {
+			this.requests.faq.id = _id;
+			this.requestFaqDetail();
+		}
+	},
 	methods: {
+		async requestFaqDetail() {
+			try {
+				const response = await this.$store.dispatch('requestMethods', {
+					method: 'GET',
+					url: `/faq?${this.parserParameter(this.requests.faq)}`,
+				});
+
+				console.log('response', response);
+				if (response && response.data) {
+					this.faq = response.data[0];
+				}
+			}
+			catch(err) {
+				console.error('requestFaqDetail error', err);
+			}
+		},
 		textWrite(e, target) {
 			this.faq[target] = e.target.value;
 		},

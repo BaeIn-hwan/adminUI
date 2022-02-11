@@ -23,7 +23,7 @@
 									<span>분류</span>
 								</th>
 								<td class="cols-table__td">
-									<select class="common__form__select filter__select--division">
+									<select v-model="requests.faq.category_id" class="common__form__select filter__select--division">
 										<option value="">선택</option>
 										<template v-for="(option, index) in filters.divSelect">
 											<option :key="index" :value="option.category_id">{{option.name}}</option>
@@ -50,8 +50,8 @@
 						</tbody>
 					</table>
 
-					<div class="filter__box align-center">
-						<button type="button" class="btn btn-m btn-black">취소</button>
+					<div class="layout__controller align-center">
+						<button type="button" class="btn btn-m btn-black" @click="filterReset();">취소</button>
 						<button type="button" class="btn btn-m btn-white">검색</button>
 					</div>
 				</div>
@@ -67,21 +67,23 @@
 				</div>
 
 				<div class="layout__content">
-					<div class="layout__box">
-						<span class="count">
-							총 <em class="count__total">{{grid.body.length}}</em>개
-						</span>
+					<template v-if="loading.faq === true">
+						<div class="layout__box">
+							<span class="count">
+								총 <em class="count__total">{{paginations.faq.total}}</em>개
+							</span>
 
-						<select v-model="paginations.listLength" class="sort-select">
-							<template v-for="(option, index) in filters.sortMax">
-								<option :key="index" :value="option.max">{{option.max}}</option>
-							</template>
-						</select>
-					</div>
+							<select v-model="paginations.faq.listLength" class="sort-select">
+								<template v-for="(option, index) in filters.sortMax">
+									<option :key="index" :value="option.max">{{option.max}}</option>
+								</template>
+							</select>
+						</div>
+					</template>
 
 					<table-list-component :loading="loading.faq" :grid="grid" />
 
-					<pagination-component :pagination="paginations" :loading="loading.paging" v-if="grid.body && grid.body.length" @move-page="pagingEvent($event);" />
+					<pagination-component :pagination="paginations.faq" :loading="loading.paging" v-if="grid.body && grid.body.length" @move-page="pagingEvent($event)" />
 				</div>
 			</section>
 		</div>
@@ -90,10 +92,11 @@
 
 <script>
 import Mixin from '@/mixin/mixin.js'
+import History from '@/mixin/history.js'
 
 export default {
 	name: 'FaqList',
-	mixins: [Mixin],
+	mixins: [Mixin, History],
 	data() {
 		return {
 			locationInfo: {
@@ -111,6 +114,7 @@ export default {
 				paging: false,
 			},
 			grid: {
+				url: '/faq/write?id=',
 				header: [{
 					key: 'category_name',
 					label: '분류',
@@ -163,21 +167,43 @@ export default {
 					max: 30
 				}]
 			},
-			request: {
+			requests: {
 				faq: {
-					_sort: 'id',      // 정렬대상
-					_order: 'DESC',		// 정렬방식(오름차순, 내림차순)
-					_page: 1,					// 시작 번호
-					_limit: 10,				// 최대 갯수
+					_sort: 'id',
+					_order: 'DESC',
+					category_id: '',
 				}
 			},
 			paginations: {
-				id: 'faqList',
-				current: 1,
-				rowCount: 10,
-				listLength: 10,
-				total: 1,
+				faq: {
+					id: 'faq',
+					current: 1,
+					rowCount: 10,
+					listLength: 10,
+					total: 1,
+				}
 			},
+			faq: [],
+		}
+	},
+	watch: {
+		'requests.faq.category_id': {
+			handler(newValue) {
+				this.requests.faq.category_id = newValue;
+			}
+		},
+		'paginations.faq.listLength': {
+			handler(newValue) {
+				this.paginations.faq = {
+					id: 'faq',
+					current: 1,
+					rowCount: 10,
+					listLength: newValue,
+					total: 1,
+				};
+				this.faq = [];
+				this.requestFaqList();
+			}
 		}
 	},
 	created() {
@@ -188,19 +214,19 @@ export default {
 			try {
 				const response = await this.$store.dispatch('requestMethods', {
 					method: 'GET',
-					url: `/faq?${this.parserParameter(this.request.faq)}`,
-					// data: this.request.faq
+					url: `/faq?${this.parserParameter(this.requests.faq)}`,
 				});
-
-				console.log('response', response);
 
 				this.loading.faq = true;
 				this.loading.paging = true;
 
 				if (response.data && response.data.length) {
-					this.grid.body = response.data;
-					this.paginations.total = response.data.length;
-					// this.paginations.total = 101;
+					if (this.requests.faq.category_id === 0) {
+						this.requests.faq.category_id = 0;
+					}
+					this.paginations.faq.total = response.data.length;
+					this.dataParsing('faq', response.data);
+					this.grid.body = this.faq[0];
 				}
 				else {
 					// @TODO: 검색 시, 없는거 처리
@@ -213,10 +239,34 @@ export default {
 			}
 		},
 		pagingEvent(payload) {
-			const { pageNumber } = payload;
+			const { id, pageNumber } = payload;
 			
-			this.request.faq._page = pageNumber;
-			this.paginations.current = pageNumber;
+			this.paginations[id].current = pageNumber;
+			this.grid.body = this.faq[pageNumber - 1];
+		},
+		dataParsing(_target, data) {
+			const { total, listLength } = this.paginations[_target];
+			const pageCount = Math.ceil(total / listLength);
+			let sPage = 0,
+					ePage = listLength;
+			
+			for (let i = 0; i < pageCount; i++) {
+				const _data = data.slice(sPage, ePage);
+				console.log('_data', _data)
+				console.log(sPage, ePage)
+
+				this.faq.push(_data);
+
+				sPage += listLength;
+				ePage += listLength;
+			}
+		},
+		filterReset() {
+			this.requests.faq = {
+				_sort: 'id',
+				_order: 'DESC',
+				category_id: '',
+			};
 		}
 	}
 }

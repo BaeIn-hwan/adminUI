@@ -48,7 +48,7 @@
 
 				<template v-if="grid.body && grid.body.length">
 					<tbody class="n-table__tbody">
-						<tr class="n-table__tr" v-for="(rows) in grid.body" :key="rows.id">
+						<tr class="n-table__tr" v-for="(rows) in grid.body" :key="rows.id" @click="movePage(rows.id)">
 							<td v-for="(key, index) in tableColumns" :key="index" class="n-table__td" :class="`align-${grid.header[index].align}`">
 								<template v-if="key !== 'controller'">
 									<span>{{rows[key]}}</span>
@@ -93,6 +93,7 @@ export default {
 			require: true,
 			default: () => {
 				return {
+					url: '',
 					header: [],
 					body: [],
 				}
@@ -113,6 +114,12 @@ export default {
 		} 
 	},
 	methods: {
+		movePage(idx) {
+			console.log(this.grid.url)
+			console.log(idx)
+			
+			this.$router.push(`${this.grid.url}${idx}`);
+		}
 	}
 }
 </script>

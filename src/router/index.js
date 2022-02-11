@@ -22,8 +22,8 @@ import NoticeDetail from 'views/csCenter/notice/detail.vue'
 
 // 로그인
 import Login from 'views/login/'
-import Test from 'views/login/test.vue'
-import Test01 from 'views/login/test01.vue'
+// import Test from 'views/login/test.vue'
+// import Test01 from 'views/login/test01.vue'
 
 Vue.use(VueRouter)
 
@@ -96,9 +96,12 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  console.log('requiresAuth', requiresAuth)
-  console.log('auth', auth)
-  console.log('auth', auth.currentUser)
+  // @TODO: 로그이니 처리 필요
+  /*
+    console.log('requiresAuth', requiresAuth)
+    console.log('auth', auth)
+    console.log('auth', auth.currentUser)
+  */
   next();
 })
 

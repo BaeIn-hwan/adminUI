@@ -65,23 +65,24 @@
 export default {
   name: 'PaginationComponent',
   props: {
-    pagination:  {
-      type: Object,
-      default: () => {
-        return {
-          id: null,        // 페이지 컴포넌트 ID
-          current: 1,      // 현재 페이지 번호
-          rowCount: 5,     // 
-          listLength: 20,  // 리스트 갯수
-          total: 1,        // 리스트 전체 갯수
-        }
-      },
-      required: true
-    },
     loading: {
       type: Boolean,
       default: false,
-    }
+      required: true,
+    },
+    pagination: {
+      type: Object,
+      required: true,
+      default: () => {
+        return {
+          id: null,        // 페이지 Component ID
+          current: 1,      // 현재 페이지 Number
+          rowCount: 5,     // 페이지 View 갯수
+          listLength: 20,  // 한 페이지의 List View 갯수
+          total: 1,        // List 전체 갯수
+        }
+      },
+    },
   },
   data() {
     return {
@@ -95,8 +96,8 @@ export default {
   },
   watch: {
     pagination: {
-      handler(newValue) {
-        this.pageDraw(newValue.current)
+      handler() {
+        this.pageInit()
       },
       deep: true,
     }
@@ -128,7 +129,8 @@ export default {
       }
     },
     pageMove(e, pageNumber) {
-      this.$emit("movePage", {
+      console.log(e)
+      this.$emit("move-page", {
         e,
         id: this.pagination.id,
         pageNumber,
@@ -140,7 +142,7 @@ export default {
 
 <style lang="scss" scoped>
 .pagination {
-  margin-top: 50px;
+  margin-top: 30px;
   font-size: 0;
   text-align: center;
 

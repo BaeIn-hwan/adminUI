@@ -10,6 +10,7 @@ import Index from 'views/index.vue'
 import TemplateList from 'views/template/list.vue'
 import TemplateDetail from 'views/template/detail.vue'
 import TemplateWrite from 'views/template/write.vue'
+import TemplateLayouts from 'views/template/layouts.vue'
 
 // FAQ
 import FaqList from 'views/csCenter/faq/list.vue'
@@ -48,6 +49,10 @@ const routes = [
       path: 'template/write',
       name: 'TemplateWrite',
       component: TemplateWrite,
+    }, {
+      path: 'template/layouts',
+      name: 'TemplateLayouts',
+      component: TemplateLayouts,
     }, {
       path: 'faq/list',
       name: 'FaqList',
@@ -95,28 +100,17 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  // @TODO: 로그이니 처리 필요
-  /*
-    console.log('requiresAuth', requiresAuth)
-    console.log('auth', auth)
-    console.log('auth', auth.currentUser)
-  */
+  if (to.path === '/login' && auth.currentUser) {
+    next('/');
+    return;
+  }
+
+  if (to.matched.some(record => record.meta.requiresAuth) && !auth.currentUser) {
+    next('/login');
+    return;
+  }
+
   next();
 })
-
-// router.beforeEach((to, from, next) => {
-//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth); // page가 로그인이 필요한지 아닌지 체크
-//   console.log('Check requiresAuth', requiresAuth)
-
-//   // 로그인 정보가 있는 경우
-//   if (auth.currentUser) {
-//     next();
-//   }
-//   // 로그인 정보가 없는 경우
-//   else {
-//     window.location.href = '/login'
-//   }
-// })
 
 export default router

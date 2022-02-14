@@ -88,7 +88,14 @@ export default {
   data() {
     return {
       locationInfo: {
-        title: '메인',
+        title: '템플릿 레이아웃',
+				depth: [{
+					depthDeep: '01',
+					depthName: '레이아웃',
+				}, {
+					depthDeep: '02',
+					depthName: '템플릿 레이아웃',
+				}]
       },
     }
   }

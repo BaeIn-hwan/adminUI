@@ -11,11 +11,9 @@
 					<span class="blind">홈</span>
 				</li>
 
-				<template>
-					<li v-for="(depth, index) in locationInfo.depth" :key="index" class="brc__list" :class="`brc__list--depth${depth.depthDeep}`">
-						<span class="brc__list--title">{{depth.depthName}}</span>
-					</li>
-				</template>
+				<li v-for="(depth, index) in locationInfo.depth" :key="index" class="brc__list" :class="`brc__list--depth${depth.depthDeep}`">
+					<span class="brc__list--title">{{depth.depthName}}</span>
+				</li>
 			</ul>
 		</div>
 	</section>

@@ -1,62 +1,70 @@
 <template>
-  <div>
+  <div class="pagination">
     <template v-if="loading == false">
+      <button type="button" class="pagination__btn pagination__btn--first skeleton-bg" @click.prevent></button>
+      <button type="button" class="pagination__btn pagination__btn--prev skeleton-bg" @click.prevent></button>
 
+      <ul class="pagination__box">
+        <li class="pagination__list" v-for="index in 5" :key="index">
+          <a href="#" class="pagination__btn skeleton-bg" @click.prevent></a>
+        </li>
+      </ul>
+
+      <button type="button" class="pagination__btn pagination__btn--next skeleton-bg" @click.prevent></button>
+      <button type="button" class="pagination__btn pagination__btn--last skeleton-bg" @click.prevent></button>
     </template>
 
     <template v-else-if="loading == true">
-      <div class="pagination">
-        <button
-          type="button"
-          class="pagination__btn pagination__btn--first"
-          v-if="pagination.rowCount < pageArray.length"
-          :style="pageGroupNum == 1 ? 'visibility: hidden' : ''"
-          @click.prevent="pageMove($event, pagination.rowCount * (pageGroupNum - 1));"
-        >
-          <span class="blind">첫 페이지</span>
-        </button>
+      <button
+        type="button"
+        class="pagination__btn pagination__btn--first"
+        v-if="pagination.rowCount < pageArray.length"
+        :style="pageGroupNum == 1 ? 'visibility: hidden' : ''"
+        @click.prevent="pageMove($event, pagination.rowCount * (pageGroupNum - 1));"
+      >
+        <span class="blind">첫 페이지</span>
+      </button>
 
-        <button
-          type="button"
-          class="pagination__btn pagination__btn--prev"
-          :style="pagination.current == 1 ? 'visibility: hidden' : ''"
-          @click.prevent="pageMove($event, pagination.current - 1);"
-        >
-          <span class="blind">이전 페이지</span>
-        </button>
+      <button
+        type="button"
+        class="pagination__btn pagination__btn--prev"
+        :style="pagination.current == 1 ? 'visibility: hidden' : ''"
+        @click.prevent="pageMove($event, pagination.current - 1);"
+      >
+        <span class="blind">이전 페이지</span>
+      </button>
 
-        <ul class="pagination__box">
-          <li class="pagination__list" v-for="(idx, index) in pageViewArray" :key="index">
-            <a
-              href="#"
-              class="pagination__btn pagination__btn--number"
-              :class="pagination.current == idx ? 'on' : ''"
-              @click.prevent="pageMove($event, idx);"
-            >
-              <span>{{idx}}</span>
-            </a>
-          </li>      
-        </ul>
+      <ul class="pagination__box">
+        <li class="pagination__list" v-for="(idx, index) in pageViewArray" :key="index">
+          <a
+            href="#"
+            class="pagination__btn pagination__btn--number"
+            :class="pagination.current == idx ? 'on' : ''"
+            @click.prevent="pageMove($event, idx);"
+          >
+            <span>{{idx}}</span>
+          </a>
+        </li>      
+      </ul>
 
-        <button
-          type="button"
-          class="pagination__btn pagination__btn--next"
-          :style="pagination.current == pageArray[pageArray.length - 1] ? 'visibility: hidden' : ''"
-          @click.prevent="pageMove($event, pagination.current + 1);"
-        >
-          <span class="blind">다음 페이지</span>
-        </button>
+      <button
+        type="button"
+        class="pagination__btn pagination__btn--next"
+        :style="pagination.current == pageArray[pageArray.length - 1] ? 'visibility: hidden' : ''"
+        @click.prevent="pageMove($event, pagination.current + 1);"
+      >
+        <span class="blind">다음 페이지</span>
+      </button>
 
-        <button
-          type="button"
-          class="pagination__btn pagination__btn--last"
-          v-if="pagination.rowCount < pageArray.length"
-          :style="pageArray.length / pagination.rowCount < pageGroupNum ? 'visibility: hidden' : ''"
-          @click.prevent="pageMove($event, pagination.rowCount * pageGroupNum + 1);"
-        >
-          <span class="blind">마지막 페이지</span>
-        </button>
-      </div>
+      <button
+        type="button"
+        class="pagination__btn pagination__btn--last"
+        v-if="pagination.rowCount < pageArray.length"
+        :style="pageArray.length / pagination.rowCount < pageGroupNum ? 'visibility: hidden' : ''"
+        @click.prevent="pageMove($event, pagination.rowCount * pageGroupNum + 1);"
+      >
+        <span class="blind">마지막 페이지</span>
+      </button>
     </template>
   </div>
 </template>
@@ -129,7 +137,6 @@ export default {
       }
     },
     pageMove(e, pageNumber) {
-      console.log(e)
       this.$emit("move-page", {
         e,
         id: this.pagination.id,

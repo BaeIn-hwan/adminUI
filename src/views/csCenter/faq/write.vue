@@ -118,7 +118,6 @@ export default {
 					url: `/faq?${this.parserParameter(this.requests.faq)}`,
 				});
 
-				console.log('response', response);
 				if (response && response.data) {
 					this.faq = response.data[0];
 				}
@@ -185,7 +184,7 @@ export default {
 				}
 			}
 			catch(err) {
-				console.log('save error', err);
+				console.error('save error', err);
 			}
 		},
 		back() {

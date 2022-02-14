@@ -88,6 +88,10 @@
 								<li class="gnb-depth02__list">
 									<router-link class="gnb-depth02__title" to="/template/detail">상세 페이지</router-link>
 								</li>
+
+								<li class="gnb-depth02__list">
+									<router-link class="gnb-depth02__title" to="/template/layouts">레이아웃 페이지</router-link>
+								</li>
 							</ul>
 						</li>
 					</ul>

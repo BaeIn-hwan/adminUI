@@ -23,9 +23,9 @@
 									<span>분류</span>
 								</th>
 								<td class="cols-table__td">
-									<select v-model="requests.faq.category_id" class="common__form__select filter__select--division">
+									<select v-model="faq.category_id" class="common__form__select filter__select--division">
 										<option value="">선택</option>
-										<template v-for="(option, index) in filters.divSelect">
+										<template v-for="(option, index) in filters.faq.divSelect">
 											<option :key="index" :value="option.category_id">{{option.name}}</option>
 										</template>
 									</select>
@@ -37,22 +37,15 @@
 									<span>조건 검색</span>
 								</th>
 								<td class="cols-table__td">
-									<select class="common__form__select filter__select--type">
-										<option value="">--선택--</option>
-										<option value="">A</option>
-										<option value="">B</option>
-										<option value="">C</option>
-									</select>
-
-									<input type="text" class="common__form__input filter__select--search">
+									<input v-model="faq.q" type="text" class="common__form__input filter__select--search">
 								</td>
 							</tr>
 						</tbody>
 					</table>
 
 					<div class="layout__controller align-center">
-						<button type="button" class="btn btn-m btn-black" @click="filterReset();">취소</button>
-						<button type="button" class="btn btn-m btn-white">검색</button>
+						<button type="button" class="btn btn-m btn-black" @click="filterReset()">초기화</button>
+						<button type="button" class="btn btn-m btn-white" @click="filterSearch()">검색</button>
 					</div>
 				</div>
 			</section>
@@ -74,7 +67,7 @@
 							</span>
 
 							<select v-model="paginations.faq.listLength" class="sort-select">
-								<template v-for="(option, index) in filters.sortMax">
+								<template v-for="(option, index) in filters.faq.sortMax">
 									<option :key="index" :value="option.max">{{option.max}}</option>
 								</template>
 							</select>
@@ -100,13 +93,13 @@ export default {
 	data() {
 		return {
 			locationInfo: {
-				title: 'FAQ 리스트',
+				title: 'FAQ',
 				depth: [{
 					depthDeep: '01',
 					depthName: '고객센터',
 				}, {
 					depthDeep: '02',
-					depthName: 'FAQ 리스트',
+					depthName: 'FAQ',
 				}]
 			},
 			loading: {
@@ -139,41 +132,49 @@ export default {
 				body: [],
 			},
 			filters: {
-				divSelect: [{
-					category_id: 0,
-					name: '전체'
-				}, {
-					category_id: 1,
-					name: '분류01'
-				}, {
-					category_id: 2,
-					name: '분류02'
-				}, {
-					category_id: 3,
-					name: '분류03'
-				}, {
-					category_id: 4,
-					name: '분류04'
-				}],
-				sortMax: [{
-					max: 10
-				}, {
-					max: 15
-				}, {
-					max: 20
-				}, {
-					max: 25
-				}, {
-					max: 30
-				}]
+				faq: {
+					divSelect: [{
+						category_id: 0,
+						name: '전체'
+					}, {
+						category_id: 1,
+						name: '분류01'
+					}, {
+						category_id: 2,
+						name: '분류02'
+					}, {
+						category_id: 3,
+						name: '분류03'
+					}, {
+						category_id: 4,
+						name: '분류04'
+					}],
+					sortMax: [{
+						max: 10
+					}, {
+						max: 15
+					}, {
+						max: 20
+					}, {
+						max: 25
+					}, {
+						max: 30
+					}]
+				},
+			},
+			faq: {
+				_sort: 'id',
+				_order: 'DESC',
+				category_id: '',
+				q: '',
 			},
 			requests: {
 				faq: {
 					_sort: 'id',
 					_order: 'DESC',
-					category_id: '',
 				}
 			},
+			faqList: [],
 			paginations: {
 				faq: {
 					id: 'faq',
@@ -183,15 +184,14 @@ export default {
 					total: 1,
 				}
 			},
-			faq: [],
 		}
 	},
 	watch: {
-		'requests.faq.category_id': {
-			handler(newValue) {
-				this.requests.faq.category_id = newValue;
-			}
-		},
+		// 'requests.faq.category_id': {
+		// 	handler(newValue) {
+		// 		this.requests.faq.category_id = newValue;
+		// 	}
+		// },
 		'paginations.faq.listLength': {
 			handler(newValue) {
 				this.paginations.faq = {
@@ -201,7 +201,7 @@ export default {
 					listLength: newValue,
 					total: 1,
 				};
-				this.faq = [];
+				this.faqList = [];
 				this.requestFaqList();
 			}
 		}
@@ -210,13 +210,14 @@ export default {
 		this.requestFaqList();
 	},
 	methods: {
-		async requestFaqList() {
+		async requestFaqList(params) {
 			try {
 				const response = await this.$store.dispatch('requestMethods', {
 					method: 'GET',
-					url: `/faq?${this.parserParameter(this.requests.faq)}`,
+					url: params ? `/faq?${this.parserParameter(params)}` : `/faq?${this.parserParameter(this.requests.faq)}`,
 				});
 
+				this.faqList = [];
 				this.loading.faq = true;
 				this.loading.paging = true;
 
@@ -226,7 +227,7 @@ export default {
 					}
 					this.paginations.faq.total = response.data.length;
 					this.dataParsing('faq', response.data);
-					this.grid.body = this.faq[0];
+					this.grid.body = this.faqList[0];
 				}
 				else {
 					// @TODO: 검색 시, 없는거 처리
@@ -242,7 +243,7 @@ export default {
 			const { id, pageNumber } = payload;
 			
 			this.paginations[id].current = pageNumber;
-			this.grid.body = this.faq[pageNumber - 1];
+			this.grid.body = this.faqList[pageNumber - 1];
 		},
 		dataParsing(_target, data) {
 			const { total, listLength } = this.paginations[_target];
@@ -251,22 +252,30 @@ export default {
 					ePage = listLength;
 			
 			for (let i = 0; i < pageCount; i++) {
-				const _data = data.slice(sPage, ePage);
-				console.log('_data', _data)
-				console.log(sPage, ePage)
+				const list = data.slice(sPage, ePage);
 
-				this.faq.push(_data);
+				this.faqList.push(list);
 
 				sPage += listLength;
 				ePage += listLength;
 			}
 		},
+		filterSearch() {
+			const data = Object.assign(this.requests.faq, this.faq);
+
+			this.requestFaqList(data);
+		},
 		filterReset() {
-			this.requests.faq = {
+			this.faq = {
 				_sort: 'id',
 				_order: 'DESC',
 				category_id: '',
+				q: '',
 			};
+			
+			const data = Object.assign(this.requests.faq, this.faq);
+			
+			this.requestFaqList(data);
 		}
 	}
 }
@@ -279,14 +288,9 @@ export default {
 			&--division {
 				width: 120px;
 			}
-	
-			&--type {
-				width: 120px;		
-			}
 
 			&--search {
 				width: 200px;
-				margin-left: 10px;
 			}
 		}
 	}

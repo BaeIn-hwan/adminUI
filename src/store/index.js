@@ -133,13 +133,17 @@ export default new Vuex.Store({
       }
     },
     fetchUser({ commit }) {
-      console.log('auth', auth)
-      console.log('auth.currentUser', auth.currentUser)
       auth.onAuthStateChanged(user => {
         if (user === null) {
           commit('CLEAR_USER');
         } else {
           commit('SET_USER', user);
+          
+          router.onReady(() => {
+            if (router.currentRoute.path === '/login') {
+              router.push('/');
+            }
+          });
         }
       });
     }

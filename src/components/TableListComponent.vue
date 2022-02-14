@@ -115,9 +115,6 @@ export default {
 	},
 	methods: {
 		movePage(idx) {
-			console.log(this.grid.url)
-			console.log(idx)
-			
 			this.$router.push(`${this.grid.url}${idx}`);
 		}
 	}

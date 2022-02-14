@@ -13,12 +13,11 @@ export default {
   components: {
     AlertComponent
   },
+  beforeMount() {
+    this.$store.dispatch('fetchUser');
+  }
 }
 </script>
-
-<style>
-  
-</style>
 
 <style lang="scss">
 * {

@@ -18,25 +18,18 @@ Vue.component('PaginationComponent', PaginationComponent);
 // 커스텀 디렉티브
 Vue.directive('focus', {
   inserted: function (el) {
-    console.log('el', el)
     el.focus();
   }
 })
 
-// let app;
+let app;
 
-// auth.onAuthStateChanged(user => {
-//   if (!app) {
-//     app = new Vue({
-//       router,
-//       store,
-//       render: h => h(App)
-//     }).$mount('#wrapper')
-//   }
-// });
-
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#wrapper')
+auth.onAuthStateChanged(() => {
+  if (!app) {
+    app = new Vue({
+      router,
+      store,
+      render: h => h(App)
+    }).$mount('#wrapper')
+  }
+});
